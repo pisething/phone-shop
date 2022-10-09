@@ -9,4 +9,10 @@ public class EntityMapper {
 		brand.setName(dto.getName());
 		return brand;
 	}
+	
+	public static BrandDTO toBrandDTO(Brand entity) {
+		BrandDTO brandDTO = new BrandDTO();
+		brandDTO.setName(entity.getName());
+		return brandDTO;
+	}
 }
