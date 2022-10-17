@@ -1,7 +1,6 @@
 package com.piseth.java.school.phoneshop.controller;
 
 import java.util.List;
-import java.util.stream.Collectors;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
@@ -15,7 +14,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.piseth.java.school.phoneshop.dto.BrandDTO;
-import com.piseth.java.school.phoneshop.mapper.EntityMapper;
+import com.piseth.java.school.phoneshop.mapper.BrandMapper;
 import com.piseth.java.school.phoneshop.model.Brand;
 import com.piseth.java.school.phoneshop.service.BrandService;
 
@@ -28,7 +27,7 @@ public class BrandController {
 
 	@PostMapping
 	public ResponseEntity<Brand> create(@RequestBody BrandDTO brandDTO) {
-		Brand brand = EntityMapper.toBrand(brandDTO);
+		Brand brand = BrandMapper.INSTANCE.toEntity(brandDTO);
 		brand = brandService.save(brand);
 		return ResponseEntity.ok(brand);
 	}
@@ -54,7 +53,7 @@ public class BrandController {
 		
 		List<BrandDTO> listBrand = brandService.getBrands()
 				.stream()
-				.map(b -> EntityMapper.toBrandDTO(b))
+				.map(b -> BrandMapper.INSTANCE.toDTO(b))
 				.toList();
 				//.collect(Collectors.toList());
 		

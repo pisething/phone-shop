@@ -3,7 +3,9 @@ package com.piseth.java.school.phoneshop.dto;
 import lombok.Data;
 
 @Data
-public class BrandDTO {
+public class ModelDTO {
 	private Integer id;
 	private String name;
+	//private Integer brandId;
+	private BrandDTO brandDTO;
 }
