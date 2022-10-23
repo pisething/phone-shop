@@ -1,14 +1,13 @@
 package com.piseth.java.school.phoneshop.service.impl;
 
 import java.util.List;
-import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
-import org.springframework.web.client.HttpClientErrorException;
 
 import com.piseth.java.school.phoneshop.dto.BrandDTO;
+import com.piseth.java.school.phoneshop.exception.ApiException;
 import com.piseth.java.school.phoneshop.model.Brand;
 import com.piseth.java.school.phoneshop.repository.BrandRepository;
 import com.piseth.java.school.phoneshop.service.BrandService;
@@ -28,26 +27,20 @@ public class BrandServiceImpl implements BrandService{
 	}
 
 	@Override
-	public Brand getById(Integer id) {
-		 Optional<Brand> brandOptional = brandRepositoty.findById(id);
-		 
-		 if(brandOptional.isPresent()) {
-			 return brandOptional.get();
-		 }else {
-			 throw new HttpClientErrorException(HttpStatus.NOT_FOUND, String.format("brand not found for id=%d", id));
-		 }
-		 
+	public Brand getById(Integer id) throws ApiException {
+		  return brandRepositoty.findById(id)
+				 .orElseThrow(() -> new ApiException(HttpStatus.NOT_FOUND, String.format("brand not found for id=%d", id)));
 	}
 
 	@Override
-	public Brand update(Integer id, BrandDTO dto) {
+	public Brand update(Integer id, BrandDTO dto) throws ApiException {
 		Brand brand = getById(id);
 		brand.setName(dto.getName());
 		return brandRepositoty.save(brand);
 	}
 
 	@Override
-	public void delete(Integer id) {
+	public void delete(Integer id) throws ApiException {
 		Brand brand = getById(id);
 		brandRepositoty.delete(brand);
 		log.info("brand with id = %d is deleted".formatted(id));
