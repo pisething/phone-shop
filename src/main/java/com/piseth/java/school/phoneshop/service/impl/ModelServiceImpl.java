@@ -1,10 +1,8 @@
 package com.piseth.java.school.phoneshop.service.impl;
 
-import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
 
 import com.piseth.java.school.phoneshop.dto.ModelDTO;
-import com.piseth.java.school.phoneshop.exception.ApiException;
 import com.piseth.java.school.phoneshop.exception.ResourceNotFoundException;
 import com.piseth.java.school.phoneshop.mapper.ModelMapper;
 import com.piseth.java.school.phoneshop.model.Model;
@@ -23,7 +21,7 @@ public class ModelServiceImpl implements ModelService{
 	private final BrandService brandService;
 
 	@Override
-	public Model save(ModelDTO dto) throws ApiException {
+	public Model save(ModelDTO dto)  {
 		
 		Integer brandId = dto.getBrandDTO().getId();
 		brandService.getById(brandId);
@@ -33,7 +31,7 @@ public class ModelServiceImpl implements ModelService{
 	}
 
 	@Override
-	public Model getById(Integer id) throws ApiException {
+	public Model getById(Integer id)  {
 		return modelRepository.findById(id)
 				.orElseThrow(() -> new ResourceNotFoundException("Model", id));
 	}
