@@ -12,7 +12,7 @@ import lombok.NoArgsConstructor;
 @EqualsAndHashCode(callSuper = false)
 @AllArgsConstructor
 @NoArgsConstructor
-public class ApiException extends Exception{ 
+public class ApiException extends RuntimeException{ 
 	
 	private HttpStatus status;
 	private String message;
