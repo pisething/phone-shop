@@ -6,11 +6,15 @@ import javax.persistence.Id;
 import javax.persistence.SequenceGenerator;
 import javax.persistence.Table;
 
+import lombok.AllArgsConstructor;
 import lombok.Data;
+import lombok.NoArgsConstructor;
 
 @Entity
 @Table(name = "brands")
 @Data
+@AllArgsConstructor
+@NoArgsConstructor
 public class Brand {
 	@Id
 	@GeneratedValue(generator = "brand_seq_generator")

@@ -12,14 +12,16 @@ import com.piseth.java.school.phoneshop.model.Brand;
 import com.piseth.java.school.phoneshop.repository.BrandRepository;
 import com.piseth.java.school.phoneshop.service.BrandService;
 
+import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 
 @Slf4j
 @Service
+@RequiredArgsConstructor
 public class BrandServiceImpl implements BrandService{
 	
 	@Autowired
-	private BrandRepository brandRepositoty;
+	private final BrandRepository brandRepositoty;
 
 	@Override
 	public Brand save(Brand entity) {
