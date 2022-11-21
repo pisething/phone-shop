@@ -2,12 +2,14 @@ package com.piseth.java.school.phoneshop.service.impl;
 
 import java.util.List;
 
+import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
 
 import com.piseth.java.school.phoneshop.dto.BrandDTO;
 import com.piseth.java.school.phoneshop.exception.ApiException;
+import com.piseth.java.school.phoneshop.mapper.BrandMapper;
 import com.piseth.java.school.phoneshop.model.Brand;
 import com.piseth.java.school.phoneshop.repository.BrandRepository;
 import com.piseth.java.school.phoneshop.service.BrandService;
@@ -35,10 +37,12 @@ public class BrandServiceImpl implements BrandService{
 	}
 
 	@Override
-	public Brand update(Integer id, BrandDTO dto)  {
-		Brand brand = getById(id);
-		brand.setName(dto.getName());
-		return brandRepositoty.save(brand);
+	public Brand update(Integer id, Brand source)  {
+		Brand target = getById(id);
+		//source.setId(id);
+		//BrandMapper.INSTANCE.update(target, source);
+		BeanUtils.copyProperties(source, target, "id");
+		return brandRepositoty.save(target);
 	}
 
 	@Override
