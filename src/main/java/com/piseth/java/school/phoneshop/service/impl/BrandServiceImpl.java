@@ -23,16 +23,16 @@ import lombok.extern.slf4j.Slf4j;
 public class BrandServiceImpl implements BrandService{
 	
 	@Autowired
-	private final BrandRepository brandRepositoty;
+	private final BrandRepository brandRepository;
 
 	@Override
 	public Brand save(Brand entity) {
-		return brandRepositoty.save(entity);
+		return brandRepository.save(entity);
 	}
 
 	@Override
 	public Brand getById(Integer id) {
-		  return brandRepositoty.findById(id)
+		  return brandRepository.findById(id)
 				 .orElseThrow(() -> new ApiException(HttpStatus.NOT_FOUND, String.format("brand not found for id=%d", id)));
 	}
 
@@ -42,20 +42,26 @@ public class BrandServiceImpl implements BrandService{
 		//source.setId(id);
 		//BrandMapper.INSTANCE.update(target, source);
 		BeanUtils.copyProperties(source, target, "id");
-		return brandRepositoty.save(target);
+		//target.setName("Apple was update");
+		return brandRepository.save(target);
 	}
 
 	@Override
 	public void delete(Integer id)  {
 		Brand brand = getById(id);
-		brandRepositoty.delete(brand);
+		brandRepository.delete(brand);
 		log.info("brand with id = %d is deleted".formatted(id));
 		//log.info(String.format("brand with id = %d is deleted", id));
 	}
 
 	@Override
 	public List<Brand> getBrands() {
-		return brandRepositoty.findAll();
+		/*System.out.println("============");
+		boolean existsByName = brandRepository.existsByName("Nokia");
+		System.out.println(existsByName);
+		System.out.println("============");
+		*/
+		return brandRepository.findAll();
 	}
 
 }
