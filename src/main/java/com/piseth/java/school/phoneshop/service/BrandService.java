@@ -2,7 +2,6 @@ package com.piseth.java.school.phoneshop.service;
 
 import java.util.List;
 
-import com.piseth.java.school.phoneshop.dto.BrandDTO;
 import com.piseth.java.school.phoneshop.model.Brand;
 
 public interface BrandService {
@@ -10,7 +9,7 @@ public interface BrandService {
 
 	Brand getById(Integer id);
 
-	Brand update(Integer id, BrandDTO dto);
+	Brand update(Integer id, Brand brand);
 
 	void delete(Integer id);
 
