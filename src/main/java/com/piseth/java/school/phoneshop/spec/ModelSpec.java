@@ -12,7 +12,9 @@ import javax.persistence.criteria.Root;
 import org.springframework.data.jpa.domain.Specification;
 
 import com.piseth.java.school.phoneshop.model.Brand;
+import com.piseth.java.school.phoneshop.model.Brand_;
 import com.piseth.java.school.phoneshop.model.Model;
+import com.piseth.java.school.phoneshop.model.Model_;
 
 import lombok.RequiredArgsConstructor;
 
@@ -27,11 +29,11 @@ public class ModelSpec implements Specification<Model> {
 		
 		Join<Model, Brand> brand = model.join("brand");
 		if(modelFilter.getModelId() != null) {
-			Predicate modelId = model.get("id").in(modelFilter.getModelId());
+			Predicate modelId = model.get(Model_.ID).in(modelFilter.getModelId());
 			list.add(modelId);
 		}
 		if(modelFilter.getModelName() != null) {
-			Predicate modelName = cb.like(model.get("name"), "%" + modelFilter.getModelName() + "%");
+			Predicate modelName = cb.like(model.get(Model_.NAME), "%" + modelFilter.getModelName() + "%");
 			list.add(modelName);
 		}
 		if(modelFilter.getBrandId() != null) {
@@ -39,7 +41,7 @@ public class ModelSpec implements Specification<Model> {
 			list.add(brandId);
 		}
 		if(modelFilter.getBrandName() != null) {
-			Predicate brandName = cb.like(brand.get("name"), "%" + modelFilter.getBrandName() + "%");
+			Predicate brandName = cb.like(brand.get(Brand_.NAME), "%" + modelFilter.getBrandName() + "%");
 			list.add(brandName);
 		}
 		Predicate[] predicates = list.toArray( Predicate[]::new);
