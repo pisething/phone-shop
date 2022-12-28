@@ -1,9 +1,16 @@
 package com.piseth.java.school.phoneshop.service.impl;
 
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Map;
 import java.util.Optional;
+import java.util.stream.Collectors;
 
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
+import com.piseth.java.school.phoneshop.dto.ProductDisplayDTO;
 import com.piseth.java.school.phoneshop.dto.ProductImportDTO;
 import com.piseth.java.school.phoneshop.exception.ResourceNotFoundException;
 import com.piseth.java.school.phoneshop.mapper.ProductImportHistoryMapper;
@@ -12,9 +19,13 @@ import com.piseth.java.school.phoneshop.model.Color;
 import com.piseth.java.school.phoneshop.model.Model;
 import com.piseth.java.school.phoneshop.model.Product;
 import com.piseth.java.school.phoneshop.model.ProductImportHistory;
+import com.piseth.java.school.phoneshop.repository.ColorRepository;
+import com.piseth.java.school.phoneshop.repository.ModelRepository;
 import com.piseth.java.school.phoneshop.repository.ProductImportHistoryRepository;
 import com.piseth.java.school.phoneshop.repository.ProductRepository;
 import com.piseth.java.school.phoneshop.service.ProductService;
+import com.piseth.java.school.phoneshop.spec.ProductSpec;
+import com.piseth.java.school.phoneshop.utils.PageUtils;
 
 import lombok.RequiredArgsConstructor;
 
@@ -24,6 +35,8 @@ public class ProductServiceImpl implements ProductService{
 	private final ProductRepository productRepository;
 	private final ProductImportHistoryRepository historyRepository;
 	private final ProductMapper productMapper;
+	private final ModelRepository modelRepository;
+	private final ColorRepository colorRepository;
 
 	@Override
 	public Product save(ProductImportDTO dto) {
@@ -61,6 +74,45 @@ public class ProductServiceImpl implements ProductService{
 	public Product getById(Long id) {
 		return productRepository.findById(id)
 				.orElseThrow(() -> new ResourceNotFoundException("Product", id));
+	}
+
+	@Override
+	public Product setPrice(Long productId, Double price) {
+		// check if product exist , get product
+		Product product = getById(productId);
+		// update price
+		product.setSalePrice(price);
+		return productRepository.save(product);
+	}
+
+	@Override
+	public Page<Product> getProducts(Map<String, String> params) {
+		Pageable pageable = PageUtils.getPageable(params);
+		return productRepository.findAll(new ProductSpec(), pageable);
+	}
+	
+	@Override
+	public List<ProductDisplayDTO> toProductDisplayDTOs(List<Product> products){
+		List<ProductDisplayDTO> diplayDTOs = new ArrayList<>();
+		//products find all model id;
+		List<Long> modelIds = products.stream().map(p -> p.getModel().getId()).toList();
+		List<Model> models = modelRepository.findAllById(modelIds);
+		Map<Long, String> modelMap = models.stream().collect(Collectors.toMap(p -> p.getId(), p -> p.getName()));
+		
+		List<Long> colorIds = products.stream().map(p -> p.getColor().getId()).toList();
+		List<Color> colors = colorRepository.findAllById(colorIds);
+		Map<Long, String> colorMap = colors.stream().collect(Collectors.toMap(Color::getId, Color::getName));
+		
+		for(Product product : products) {
+			ProductDisplayDTO dto = new ProductDisplayDTO();
+			dto.setId(product.getId());
+			dto.setName(product.getName());
+			dto.setSalePrice(product.getSalePrice());
+			dto.setModel(modelMap.get(product.getModel().getId()));
+			dto.setColor(colorMap.get(product.getColor().getId()));
+			diplayDTOs.add(dto);
+		}
+		return diplayDTOs;
 	}
 
 }
