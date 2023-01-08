@@ -1,5 +1,6 @@
 package com.piseth.java.school.phoneshop.service;
 
+import java.math.BigDecimal;
 import java.util.List;
 import java.util.Map;
 
@@ -12,7 +13,8 @@ import com.piseth.java.school.phoneshop.model.Product;
 public interface ProductService {
 	Product save(ProductImportDTO productImportDTO);
 	Product getById(Long id);
-	Product setPrice(Long productId, Double price);
+	Product setPrice(Long productId, BigDecimal price);
 	Page<Product> getProducts(Map<String, String> params);
 	List<ProductDisplayDTO> toProductDisplayDTOs(List<Product> products);
+	boolean hasAvailableUnit(Long productId, Integer orderUnit);
 }

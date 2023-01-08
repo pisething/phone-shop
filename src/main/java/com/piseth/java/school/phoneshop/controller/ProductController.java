@@ -15,7 +15,6 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.piseth.java.school.phoneshop.dto.PageDTO;
 import com.piseth.java.school.phoneshop.dto.PriceDTO;
-import com.piseth.java.school.phoneshop.dto.ProductDisplayDTO;
 import com.piseth.java.school.phoneshop.dto.ProductImportDTO;
 import com.piseth.java.school.phoneshop.mapper.PageMapper;
 import com.piseth.java.school.phoneshop.mapper.ProductMapper;

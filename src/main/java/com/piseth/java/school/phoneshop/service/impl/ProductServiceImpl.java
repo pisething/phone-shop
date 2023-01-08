@@ -1,5 +1,6 @@
 package com.piseth.java.school.phoneshop.service.impl;
 
+import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
@@ -8,10 +9,12 @@ import java.util.stream.Collectors;
 
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
+import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
 
 import com.piseth.java.school.phoneshop.dto.ProductDisplayDTO;
 import com.piseth.java.school.phoneshop.dto.ProductImportDTO;
+import com.piseth.java.school.phoneshop.exception.ApiException;
 import com.piseth.java.school.phoneshop.exception.ResourceNotFoundException;
 import com.piseth.java.school.phoneshop.mapper.ProductImportHistoryMapper;
 import com.piseth.java.school.phoneshop.mapper.ProductMapper;
@@ -77,7 +80,7 @@ public class ProductServiceImpl implements ProductService{
 	}
 
 	@Override
-	public Product setPrice(Long productId, Double price) {
+	public Product setPrice(Long productId, BigDecimal price) {
 		// check if product exist , get product
 		Product product = getById(productId);
 		// update price
@@ -113,6 +116,18 @@ public class ProductServiceImpl implements ProductService{
 			diplayDTOs.add(dto);
 		}
 		return diplayDTOs;
+	}
+
+	@Override
+	public boolean hasAvailableUnit(Long productId, Integer orderUnit) {
+		Product product = getById(productId);
+		if(product.getAvailableUnit() < orderUnit) {
+			throw new ApiException(HttpStatus.BAD_REQUEST, 
+					"Product (%s) with id = %d doesn't have enough unit in stock"
+					.formatted(product.getName(), productId));
+		}
+		
+		return true;
 	}
 
 }
