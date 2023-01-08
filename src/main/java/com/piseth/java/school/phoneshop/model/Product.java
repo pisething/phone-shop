@@ -1,5 +1,7 @@
 package com.piseth.java.school.phoneshop.model;
 
+import java.math.BigDecimal;
+
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
@@ -37,7 +39,7 @@ public class Product {
 	private Color color;
 
 	@Column(name = "sale_price")
-	private Double salePrice;
+	private BigDecimal salePrice;
 
 	@Column(name = "available_unit")
 	private Integer availableUnit;
