@@ -1,0 +1,227 @@
+databaseChangeLog:
+- changeSet:
+    id: 1673151449931-1
+    author: pisething (generated)
+    changes:
+    - createTable:
+        columns:
+        - column:
+            autoIncrement: true
+            constraints:
+              nullable: false
+              primaryKey: true
+              primaryKeyName: colors_pkey
+            name: id
+            type: BIGINT
+        - column:
+            name: name
+            type: VARCHAR(255)
+        tableName: colors
+- changeSet:
+    id: 1673151449931-2
+    author: pisething (generated)
+    changes:
+    - createTable:
+        columns:
+        - column:
+            autoIncrement: true
+            constraints:
+              nullable: false
+              primaryKey: true
+              primaryKeyName: product_import_histories_pkey
+            name: id
+            type: BIGINT
+        - column:
+            name: date_import
+            type: date
+        - column:
+            name: import_unit
+            type: INTEGER
+        - column:
+            name: price_per_unit
+            type: numeric(19, 2)
+        - column:
+            name: product_id
+            type: BIGINT
+        tableName: product_import_histories
+- changeSet:
+    id: 1673151449931-3
+    author: pisething (generated)
+    changes:
+    - createTable:
+        columns:
+        - column:
+            autoIncrement: true
+            constraints:
+              nullable: false
+              primaryKey: true
+              primaryKeyName: products_pkey
+            name: id
+            type: BIGINT
+        - column:
+            name: available_unit
+            type: INTEGER
+        - column:
+            name: image_path
+            type: VARCHAR(255)
+        - column:
+            name: name
+            type: VARCHAR(255)
+        - column:
+            name: sale_price
+            type: FLOAT8
+        - column:
+            name: color_id
+            type: BIGINT
+        - column:
+            name: model_id
+            type: BIGINT
+        tableName: products
+- changeSet:
+    id: 1673151449931-4
+    author: pisething (generated)
+    changes:
+    - createTable:
+        columns:
+        - column:
+            constraints:
+              nullable: false
+              primaryKey: true
+              primaryKeyName: brands_pkey
+            name: id
+            type: BIGINT
+        - column:
+            name: active
+            type: BOOLEAN
+        - column:
+            name: name
+            type: VARCHAR(255)
+        tableName: brands
+- changeSet:
+    id: 1673151449931-5
+    author: pisething (generated)
+    changes:
+    - addUniqueConstraint:
+        columnNames: model_id, color_id
+        constraintName: ukb53j9mptndycba4fv2tb2h6xy
+        tableName: products
+- changeSet:
+    id: 1673151449931-6
+    author: pisething (generated)
+    changes:
+    - addUniqueConstraint:
+        columnNames: name
+        constraintName: ukoce3937d2f4mpfqrycbr0l93m
+        tableName: brands
+- changeSet:
+    id: 1673151449931-7
+    author: pisething (generated)
+    changes:
+    - createSequence:
+        cacheSize: 1
+        cycle: false
+        dataType: bigint
+        incrementBy: 50
+        maxValue: 9223372036854775807
+        minValue: 1
+        sequenceName: brand_seq
+        startValue: 1
+- changeSet:
+    id: 1673151449931-8
+    author: pisething (generated)
+    changes:
+    - createSequence:
+        cacheSize: 1
+        cycle: false
+        dataType: bigint
+        incrementBy: 50
+        maxValue: 9223372036854775807
+        minValue: 1
+        sequenceName: model_seq
+        startValue: 1
+- changeSet:
+    id: 1673151449931-9
+    author: pisething (generated)
+    changes:
+    - createTable:
+        columns:
+        - column:
+            constraints:
+              nullable: false
+              primaryKey: true
+              primaryKeyName: models_pkey
+            name: id
+            type: BIGINT
+        - column:
+            name: model_name
+            type: VARCHAR(255)
+        - column:
+            constraints:
+              nullable: false
+            name: year_made
+            type: SMALLINT
+        - column:
+            name: brand_id
+            type: BIGINT
+        tableName: models
+- changeSet:
+    id: 1673151449931-10
+    author: pisething (generated)
+    changes:
+    - addForeignKeyConstraint:
+        baseColumnNames: model_id
+        baseTableName: products
+        constraintName: fk29c4nbv58vgu9wg14fd8ac4xy
+        deferrable: false
+        initiallyDeferred: false
+        onDelete: NO ACTION
+        onUpdate: NO ACTION
+        referencedColumnNames: id
+        referencedTableName: models
+        validate: true
+- changeSet:
+    id: 1673151449931-11
+    author: pisething (generated)
+    changes:
+    - addForeignKeyConstraint:
+        baseColumnNames: brand_id
+        baseTableName: models
+        constraintName: fk95s72g5hnsl3o0bqeuhnokdxu
+        deferrable: false
+        initiallyDeferred: false
+        onDelete: NO ACTION
+        onUpdate: NO ACTION
+        referencedColumnNames: id
+        referencedTableName: brands
+        validate: true
+- changeSet:
+    id: 1673151449931-12
+    author: pisething (generated)
+    changes:
+    - addForeignKeyConstraint:
+        baseColumnNames: color_id
+        baseTableName: products
+        constraintName: fkebociq5k3b2tkcxh3q5dg4eed
+        deferrable: false
+        initiallyDeferred: false
+        onDelete: NO ACTION
+        onUpdate: NO ACTION
+        referencedColumnNames: id
+        referencedTableName: colors
+        validate: true
+- changeSet:
+    id: 1673151449931-13
+    author: pisething (generated)
+    changes:
+    - addForeignKeyConstraint:
+        baseColumnNames: product_id
+        baseTableName: product_import_histories
+        constraintName: fkmpiyohgei1add3nnfobqe169b
+        deferrable: false
+        initiallyDeferred: false
+        onDelete: NO ACTION
+        onUpdate: NO ACTION
+        referencedColumnNames: id
+        referencedTableName: products
+        validate: true
+
