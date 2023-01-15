@@ -20,7 +20,7 @@ import lombok.Data;
 @Table(name = "products", 
 uniqueConstraints = {@UniqueConstraint(columnNames = {"model_id", "color_id"})})
 @Data
-public class Product {
+public class Product extends AuditEntity{
 
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)

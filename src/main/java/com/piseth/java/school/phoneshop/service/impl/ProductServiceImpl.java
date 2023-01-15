@@ -4,6 +4,7 @@ import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
+import java.util.Objects;
 import java.util.Optional;
 import java.util.stream.Collectors;
 
@@ -128,6 +129,17 @@ public class ProductServiceImpl implements ProductService{
 		}
 		
 		return true;
+	}
+
+	@Override
+	public boolean salePriceIsSet(Long productId) {
+		Product product = getById(productId);
+		if(Objects.isNull(product.getSalePrice())) {
+			throw new ApiException(HttpStatus.BAD_REQUEST, 
+					"Product (%s) with id = %d haven't set sale price yet."
+					.formatted(product.getName(), productId));
+		}
+		return false;
 	}
 
 }
