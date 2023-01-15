@@ -17,4 +17,5 @@ public interface ProductService {
 	Page<Product> getProducts(Map<String, String> params);
 	List<ProductDisplayDTO> toProductDisplayDTOs(List<Product> products);
 	boolean hasAvailableUnit(Long productId, Integer orderUnit);
+	boolean salePriceIsSet(Long productId);
 }

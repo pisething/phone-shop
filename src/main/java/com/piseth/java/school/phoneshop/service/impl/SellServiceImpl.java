@@ -33,9 +33,13 @@ public class SellServiceImpl implements SellService{
 	@Override
 	public void sell(SaleDTO saleDTO) {
 		List<ProductOrderDTO> productOrderDTOs = saleDTO.getProducts();
-		// validate stock
+		// validation
 		for(ProductOrderDTO orderDTO : productOrderDTOs) {
+			//validate stock
 			productService.hasAvailableUnit(orderDTO.getProductId(), orderDTO.getUnit());
+			// validate sale price
+			productService.salePriceIsSet(orderDTO.getProductId());
+			
 		}
 		// get ordered products from db
 		List<Long> productIds = productOrderDTOs.stream()
