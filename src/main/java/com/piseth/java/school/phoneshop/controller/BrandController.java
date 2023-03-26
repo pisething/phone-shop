@@ -31,7 +31,7 @@ public class BrandController {
 
 	//@PreAuthorize("hasAuthority('brand:write')")
 	//hasAnyAuthority
-	@PreAuthorize("hasAnyAuthority('brand:write','brand:read')")
+	@PreAuthorize("hasAnyAuthority('brand:write','brand:read','ROLE_ADMIN')")
 	@PostMapping
 	public ResponseEntity<Brand> create(@RequestBody BrandDTO brandDTO) {
 		Brand brand = BrandMapper.INSTANCE.toEntity(brandDTO);
